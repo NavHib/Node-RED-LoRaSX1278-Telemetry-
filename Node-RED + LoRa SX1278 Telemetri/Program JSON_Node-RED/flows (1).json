@@ -1,0 +1,278 @@
+[
+    {
+        "id": "0787d170a6a9983d",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "45f84f5f88fcf1d5",
+        "type": "ui_gauge",
+        "z": "0787d170a6a9983d",
+        "name": "Green",
+        "group": "ui_group1",
+        "order": 2,
+        "width": 5,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Green",
+        "label": "G",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 255,
+        "colors": [
+            "#00ff00",
+            "#66ff66",
+            "#99ff99"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 610,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "1980b8f462082895",
+        "type": "ui_gauge",
+        "z": "0787d170a6a9983d",
+        "name": "Blue",
+        "group": "ui_group1",
+        "order": 3,
+        "width": 5,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Blue",
+        "label": "B",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 255,
+        "colors": [
+            "#0000ff",
+            "#6666ff",
+            "#9999ff"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 610,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "129045c1c189565c",
+        "type": "ui_text",
+        "z": "0787d170a6a9983d",
+        "group": "ui_group1",
+        "order": 6,
+        "width": 5,
+        "height": 1,
+        "name": "RGB String",
+        "label": "Kode RGB",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 630,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "807cb92c75cb480d",
+        "type": "ui_gauge",
+        "z": "0787d170a6a9983d",
+        "name": "Red",
+        "group": "ui_group1",
+        "order": 1,
+        "width": 5,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Red",
+        "label": "R",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 255,
+        "colors": [
+            "#ff0000",
+            "#ff6666",
+            "#ff9999"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 610,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2042307559678c8e",
+        "type": "function",
+        "z": "0787d170a6a9983d",
+        "name": "Generate RGB Value",
+        "func": "// Jika payload masih berupa string, parse dulu\nlet data = msg.payload;\nif (typeof data === \"string\") {\n    data = JSON.parse(data);\n}\n\nlet r = data.r;\nlet g = data.g;\nlet b = data.b;\n\n// Konversi ke RGB string dan HEX color\nlet rgbString = `rgb(${r},${g},${b})`;\nlet hexColor = \"#\" + \n    r.toString(16).padStart(2, '0') +\n    g.toString(16).padStart(2, '0') +\n    b.toString(16).padStart(2, '0');\n\n// Kirim ke 5 output:\n// 0 - Merah\n// 1 - Hijau\n// 2 - Biru\n// 3 - Teks RGB\n// 4 - Hex color string untuk template\nreturn [\n    { payload: r },\n    { payload: g },\n    { payload: b },\n    { payload: rgbString },\n    { payload: hexColor }\n];\n",
+        "outputs": 5,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 295,
+        "y": 168.90277099609375,
+        "wires": [
+            [
+                "807cb92c75cb480d"
+            ],
+            [
+                "45f84f5f88fcf1d5"
+            ],
+            [
+                "1980b8f462082895"
+            ],
+            [
+                "129045c1c189565c"
+            ],
+            [
+                "html-template"
+            ]
+        ]
+    },
+    {
+        "id": "e1babb302dcd8e38",
+        "type": "mqtt in",
+        "z": "0787d170a6a9983d",
+        "name": "Warna",
+        "topic": "lora/warna01",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "a8a32a1716631970",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 160,
+        "wires": [
+            [
+                "2042307559678c8e",
+                "f10f38e99fe2b872"
+            ]
+        ]
+    },
+    {
+        "id": "f10f38e99fe2b872",
+        "type": "debug",
+        "z": "0787d170a6a9983d",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "html-template",
+        "type": "ui_template",
+        "z": "0787d170a6a9983d",
+        "group": "ui_group1",
+        "name": "Tampilan Warna",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "format": "<div style=\"width:100%; height:120px; border:2px solid #000; border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;\" ng-style=\"{'background-color': msg.payload}\">\n  Warna: {{msg.payload}}\n</div>\n",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 640,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0dd51628543f1b8a",
+        "type": "ui_spacer",
+        "z": "0787d170a6a9983d",
+        "name": "spacer",
+        "group": "ui_group1",
+        "order": 5,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "5a064dfc01ecee20",
+        "type": "ui_spacer",
+        "z": "0787d170a6a9983d",
+        "name": "spacer",
+        "group": "ui_group1",
+        "order": 7,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "ui_group1",
+        "type": "ui_group",
+        "name": "Nilai RGB",
+        "tab": "ui_tab1",
+        "order": 1,
+        "disp": true,
+        "width": 15,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a8a32a1716631970",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "ui_tab1",
+        "type": "ui_tab",
+        "name": "Warna",
+        "icon": "brush",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
