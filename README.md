@@ -27,9 +27,7 @@ Penerima
 <img width="462" height="382" alt="image" src="https://github.com/user-attachments/assets/0b0c3ce6-7981-4eb4-ad19-a6612cec3f13" />
 
 ### Dashboard Node-RED
-
-![Dashboard](<img width="915" height="486" alt="image" src="https://github.com/user-attachments/assets/cd2a23f9-fa5f-49c0-853b-f4a40ac2d352" />
-)
+<img width="915" height="486" alt="image" src="https://github.com/user-attachments/assets/cd2a23f9-fa5f-49c0-853b-f4a40ac2d352" />
 
 ### Video Demo & Buku Pnduan
 https://drive.google.com/drive/folders/1hWWEPuip4RN4peL4tBfAAkmqG0LhBO7n?usp=sharing.
