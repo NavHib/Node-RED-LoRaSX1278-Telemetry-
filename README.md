@@ -11,7 +11,6 @@ Fitur
 Teknologi
 - **Hardware**: ESP8266, LoRa SX1278, Sensor Warna (TCS3200/TCS34725)
 - **Software**: Arduino IDE, Node-RED, MQTT (optional)
-- **Database**: JSON data format (exportable)
 
 Struktur Repo
 - `Program_JSON_Node-RED/` → Flow Node-RED (export file JSON)
